@@ -1,0 +1,1 @@
+Изображение от upklyak на Freepik - https://ru.freepik.com/free-vector/set-of-web-buttons-isolated-on-background_31745196.htm#query=button%20asset&position=47&from_view=keyword&track=ais&uuid=88b4d015-b842-4f64-8cda-6f30c054eb80

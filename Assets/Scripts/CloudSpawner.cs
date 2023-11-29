@@ -22,9 +22,11 @@ public class CloudSpawner : MonoBehaviour
             GameObject cloud;
             float rand = Random.Range(257.5f, 258.8f);
             if (Random.value < 0.5f)
-                cloud = Instantiate(clouds1, new Vector3(540, rand, -1), Quaternion.identity);
+                cloud = Instantiate(clouds1, new Vector3(540, rand, -0.5f), Quaternion.identity);
             else
-                cloud = Instantiate(clouds2, new Vector3(540, rand, -1), Quaternion.identity); 
+                cloud = Instantiate(clouds2, new Vector3(540, rand, -0.5f), Quaternion.identity);
+            rand = Random.Range(0.7f, 1.5f);
+            cloud.transform.localScale = new Vector3(cloud.transform.localScale.x * rand, cloud.transform.localScale.y * rand, 0);
         }
     }
 }
