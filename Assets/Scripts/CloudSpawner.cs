@@ -8,7 +8,6 @@ public class CloudSpawner : MonoBehaviour
     public GameObject clouds2;
     public int spawnerDelay;
 
-    // Start is called before the first frame update
     void Start()
     {
         StartCoroutine(Spawner());

@@ -29,6 +29,7 @@ public class SceneLoader : MonoBehaviour
         if (handler != null)
             handler.allowedInput = true;
 
-        gameObject.SetActive(false);
+        GameObject.Destroy(gameObject);
+        //gameObject.SetActive(false);
     }
 }

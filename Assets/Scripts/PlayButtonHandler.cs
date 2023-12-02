@@ -16,7 +16,6 @@ public class PlayButtonHandler : MonoBehaviour, IPointerDownHandler, IPointerUpH
     void Start()
     {
         button = gameObject.GetComponent<Button>();
-        button.onClick.AddListener(TaskOnClick);
         originalScale = transform.localScale;
     }
 
@@ -79,10 +78,5 @@ public class PlayButtonHandler : MonoBehaviour, IPointerDownHandler, IPointerUpH
         }
 
         transform.localScale = originalScale;
-    }
-
-    void TaskOnClick()
-    {
-        //
     }
 }

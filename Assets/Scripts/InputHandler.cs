@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class InputHandler : MonoBehaviour
@@ -5,14 +6,35 @@ public class InputHandler : MonoBehaviour
     public bool allowedInput;
     public GameObject dialogueController;
     public GameObject restarter;
+    public float doubleTapTimeThreshold = 0.1f;
+
+    private bool tapCoroutineStarted = false;
 
     void Update()
     {
         if (allowedInput && (Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began)))
         {
-            Vector2 touchPos = GetTouchPosition();
-            if (TouchOnBackground(touchPos))
-                HandleTouch();
+            if (tapCoroutineStarted)
+            {
+                StopCoroutine(nameof(TapCoroutine));
+                HandleDoubleTap();
+                tapCoroutineStarted = false;
+            }
+            else
+            {
+                tapCoroutineStarted = true;
+                StartCoroutine(nameof(TapCoroutine));
+            }
+        }
+    }
+
+    IEnumerator TapCoroutine()
+    {
+        yield return new WaitForSeconds(doubleTapTimeThreshold);
+        if (tapCoroutineStarted)
+        {
+            tapCoroutineStarted = false;
+            HandleOneTap();
         }
     }
 
@@ -21,12 +43,18 @@ public class InputHandler : MonoBehaviour
         allowedInput = allowed;
     }
 
-    void HandleTouch()
+    void HandleDoubleTap()
+    {
+        DialogueController dialogueControl = dialogueController.GetComponent<DialogueController>();
+        dialogueControl.addMessage(true);
+    }
+
+    void HandleOneTap()
     {
         DialogueController dialogueControl = dialogueController.GetComponent<DialogueController>();
         if (dialogueControl.storyEnded)
             restarter.GetComponent<Restarter>().Restart();
-        dialogueControl.addMessage(dialogueControl.currentMessage);
+        dialogueControl.addMessage(false);
     }
 
     Vector2 GetTouchPosition()
@@ -39,16 +67,5 @@ public class InputHandler : MonoBehaviour
         {
             return Camera.main.ScreenToWorldPoint(Input.mousePosition);
         }
-    }
-
-    bool TouchOnBackground(Vector2 touchPosition)
-    {
-        Collider2D hitCollider = Physics2D.OverlapPoint(touchPosition);
-
-        if (hitCollider != null && hitCollider.gameObject == gameObject)
-        {
-            return true;
-        }
-        return false;
     }
 }
